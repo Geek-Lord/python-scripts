@@ -1,3 +1,4 @@
+# script to search a movie from command line and print it's rating and description from imdb
 import requests
 from bs4 import BeautifulSoup
 from sys import argv
@@ -10,6 +11,7 @@ if len(argv) < 2:
             imdb <search term>
         """
     )
+    exit()
 query = search + '+'.join(argv[1:])
 print('Searching...')
 res = requests.get(query)
