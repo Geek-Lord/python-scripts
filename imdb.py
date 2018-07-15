@@ -1,4 +1,6 @@
+#! usr/bin/python3
 # script to search a movie from command line and print it's rating and description from imdb
+
 import requests
 from bs4 import BeautifulSoup
 from sys import argv
@@ -12,7 +14,7 @@ if len(argv) < 2:
         """
     )
     exit()
-query = search + '+'.join(argv[1:])
+query = search + '+'.join(argv[1:]) + '&s=tt&ttype=ft&ref_=fn_ft'
 print('Searching...')
 res = requests.get(query)
 soup = BeautifulSoup(res.text, 'lxml')
@@ -24,8 +26,9 @@ print('Getting movie details...')
 page = requests.get('https://www.imdb.com' + link)
 soup2 = BeautifulSoup(page.text, 'lxml')
 mov_name = soup2.find('h1').text.replace('\xa0', ' ')
-print('Details for movie:' + mov_name)
+print('\nMovie Title: ' + mov_name)
 ratings = soup2.find_all('span', itemprop="ratingValue")
 print('IMDb rating: ' + ratings[0].text)
 desc = soup2.find('span', itemprop="description")
-print('Description:\n' + desc.text)
+print('Description:\n\n' + desc.text)
+print('\nLink: ' + 'https://www.imdb.com' + link)
